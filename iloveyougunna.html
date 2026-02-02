@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Gunna, Forever</title>
+    <style>
+        /* Importing elegant romantic fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,400;1,500&family=Quicksand:wght@300;400&display=swap');
+
+        :root {
+            --primary-pink: #fff0f3;
+            --soft-rose: #ff85a1;
+            --deep-rose: #ff4d6d;
+            --text-dark: #594d4d;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--primary-pink);
+            background: linear-gradient(180deg, #fff0f3 0%, #ffccd5 100%);
+            font-family: 'Quicksand', sans-serif;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(3rem, 12vw, 5.5rem);
+            color: var(--deep-rose);
+            margin-bottom: 10px;
+            animation: fadeInDown 1.5s ease-out;
+        }
+
+        .subtitle {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: clamp(1rem, 4vw, 1.4rem);
+            color: var(--text-dark);
+            opacity: 0.8;
+            margin-bottom: 30px;
+            animation: fadeIn 2.5s ease-in;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            text-align: center;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--soft-rose);
+            animation: bounce 2s infinite;
+        }
+
+        #scroll-content {
+            padding-bottom: 100px;
+        }
+
+        .love-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            margin: 40px 0;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(255, 77, 109, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .love-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.8s ease-out;
+        }
+
+        .love-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.8rem, 6vw, 2.8rem);
+            color: var(--deep-rose);
+            line-height: 1.2;
+        }
+
+        .divider {
+            width: 50px;
+            height: 2px;
+            background: var(--soft-rose);
+            margin: 20px auto 0;
+            border-radius: 2px;
+            opacity: 0.5;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        /* Heart Icon for decorations */
+        .heart-icon {
+            color: var(--deep-rose);
+            font-size: 1.2rem;
+            margin: 0 5px;
+        }
+
+        /* Pop up at bottom */
+        #endless-note {
+            position: fixed;
+            bottom: 20px;
+            background: var(--white);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: none;
+            z-index: 1000;
+            border: 1px solid var(--primary-pink);
+        }
+
+    </style>
+</head>
+<body>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="container">
+        <header>
+            <h1>My dearest Gunna......</h1>
+            <p class="subtitle">My heart, my soul, my everything.<br/>I love you soooooooooooo much ❤️</p>
+            <div style="font-size: 2rem;"></div>
+            <div class="scroll-hint">Scroll for my heart</div>
+        </header>
+
+        <div id="scroll-content">
+            <!-- Messages will be injected here -->
+        </div>
+    </div>
+
+    <div id="endless-note">My love for you is infinite...</div>
+
+    <script>
+        const messages = [
+            "I love you more than words can say, Gunna.",
+            "You are the most beautiful person I know.",
+            "Every second with you is a gift.",
+            "You make my world so much brighter.",
+            "I love the way you laugh.",
+            "You are my favorite person in the whole world.",
+            "My heart belongs to you, Gunna.",
+            "I love you today, tomorrow, and forever.",
+            "You are my sunshine on the darkest days.",
+            "I promise to always stand by your side.",
+            "You make me the luckiest person alive.",
+            "I love the little things you do.",
+            "You're the home I always wanted to find.",
+            "I love you to the moon and back.",
+            "You are my soulmate, Gunna.",
+            "I'm so grateful for every moment we share.",
+            "You are my dream come true.",
+            "I love you more than all the stars.",
+            "You are the best thing that ever happened to me.",
+            "My love for you grows stronger every day.",
+            "You are simply irreplaceable.",
+            "I love your kind and gentle heart.",
+            "You are my forever and always, Gunna.",
+            "Life is beautiful because of you.",
+            "I love your smile more than anything.",
+            "You are my best friend and my lover.",
+            "I will choose you over and over again.",
+            "You make my heart skip a beat.",
+            "I love the way you look at me.",
+            "You are the peace in my chaos.",
+            "I love you for everything you are.",
+            "You are my strength and my happiness.",
+            "Every heartbeat of mine whispers your name.",
+            "I love our adventures together.",
+            "You are the melody to my heart's song.",
+            "I love you more than pizza! (And that's a lot).",
+            "You are my heart's greatest treasure.",
+            "I love growing old with you, Gunna.",
+            "You are the queen of my heart.",
+            "I love the way your hand fits in mine.",
+            "You are my constant in a changing world.",
+            "I love the life we are building together.",
+            "You are my beautiful Gunna, forever.",
+            "I love you in every single universe.",
+            "You are the love of my life.",
+            "I love the way you inspire me.",
+            "You are my perfect match.",
+            "I love you without end.",
+            "You are my everything, Gunna.",
+            "I love you infinity plus one.",
+            "My love for you will never fade."
+        ];
+
+        const scrollContent = document.getElementById('scroll-content');
+        let currentIdx = 0;
+
+        function createCard(text) {
+            const card = document.createElement('div');
+            card.className = 'love-card';
+            
+            const p = document.createElement('p');
+            p.className = 'love-text';
+            p.innerText = text;
+            
+            const div = document.createElement('div');
+            div.className = 'divider';
+            
+            card.appendChild(p);
+            card.appendChild(div);
+            return card;
+        }
+
+        function addMessages(count = 3) {
+            for (let i = 0; i < count; i++) {
+                const msg = messages[currentIdx % messages.length];
+                const card = createCard(msg);
+                scrollContent.appendChild(card);
+                currentIdx++;
+                
+                // Trigger visibility for animation
+                setTimeout(() => {
+                    card.classList.add('visible');
+                }, 100);
+            }
+        }
+
+        // Infinite scroll logic
+        window.onscroll = () => {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 800) {
+                addMessages(2);
+                
+                // Show floating note occasionally
+                const note = document.getElementById('endless-note');
+                if (Math.random() > 0.98) {
+                    note.style.display = 'block';
+                    setTimeout(() => note.style.display = 'none', 3000);
+                }
+            }
+        };
+
+        // Canvas Background Animation
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let hearts = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class FloatingHeart {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + Math.random() * 100;
+                this.size = Math.random() * 15 + 10;
+                this.speed = Math.random() * 1.5 + 0.5;
+                this.opacity = Math.random() * 0.5 + 0.1;
+                this.drift = Math.random() * 1 - 0.5;
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = '#ff85a1';
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.bezierCurveTo(-this.size/2, -this.size/2, -this.size, this.size/3, 0, this.size);
+                ctx.bezierCurveTo(this.size, this.size/3, this.size/2, -this.size/2, 0, 0);
+                ctx.fill();
+                ctx.restore();
+            }
+            update() {
+                this.y -= this.speed;
+                this.x += this.drift;
+                if (this.y < -50) this.reset();
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            hearts.forEach(h => {
+                h.update();
+                h.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+        for (let i = 0; i < 20; i++) hearts.push(new FloatingHeart());
+        animate();
+
+        // Initial load
+        addMessages(5);
+    </script>
+</body>
+</html>
