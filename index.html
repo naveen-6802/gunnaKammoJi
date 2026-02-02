@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Dearest Gunna ❤️</title>
+    <!-- Simple, clean font -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-pink: #ff85a2;
+            --soft-pink: #fff0f3;
+            --deep-pink: #ff4d6d;
+            --white: #ffffff;
+            --text-main: #4a4a4a;
+            --romantic-gold: #d4af37;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--soft-pink);
+            color: var(--text-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Floating background items */
+        .bg-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .floating-emoji {
+            position: absolute;
+            font-size: 24px;
+            opacity: 0.4;
+            animation: float-up 8s linear infinite;
+        }
+
+        @keyframes float-up {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Main Wrapper */
+        .card {
+            width: 90%;
+            max-width: 480px;
+            background: var(--white);
+            padding: 50px 30px;
+            border-radius: 40px;
+            box-shadow: 0 25px 50px rgba(255, 133, 162, 0.12);
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            transition: opacity 0.5s ease;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            color: var(--deep-pink);
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        p {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #666;
+        }
+
+        .sticker-main {
+            font-size: 85px;
+            display: block;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+        }
+
+        /* Buttons */
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            height: 65px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 16px 45px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 100px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.1);
+        }
+
+        #yesBtn {
+            background-color: var(--deep-pink);
+            color: white;
+        }
+
+        #yesBtn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 12px 25px rgba(255, 77, 109, 0.3);
+        }
+
+        #noBtn {
+            background-color: #f5f5f5;
+            color: #aaa;
+            position: absolute;
+            transition: 0.15s ease;
+            z-index: 5;
+        }
+
+        /* Task View */
+        #taskView {
+            display: none;
+            opacity: 0;
+        }
+
+        .game-canvas {
+            width: 100%;
+            height: 220px;
+            background: #fffcfd;
+            border-radius: 25px;
+            border: 2px dashed #ffd1dc;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .catch-heart {
+            position: absolute;
+            font-size: 35px;
+            cursor: pointer;
+            user-select: none;
+            animation: pulse-heart 0.8s infinite alternate;
+        }
+
+        @keyframes pulse-heart {
+            from { transform: scale(1); }
+            to { transform: scale(1.2); }
+        }
+
+        .progress-container {
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: #f0f0f0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        #progressFill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary-pink), var(--deep-pink));
+            transition: 0.4s ease;
+        }
+
+        /* Final View */
+        #finalView {
+            display: none;
+            opacity: 0;
+            max-width: 900px;
+            width: 95%;
+            margin: 40px auto;
+            text-align: center;
+        }
+
+        .affection-heading {
+            font-size: 2.8rem;
+            color: var(--deep-pink);
+            margin-bottom: 10px;
+        }
+
+        .affection-sub {
+            font-size: 1.3rem;
+            color: #777;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            font-style: italic;
+        }
+
+        .week-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .day-card {
+            background: white;
+            padding: 30px;
+            border-radius: 30px;
+            border: 1px solid #fff0f3;
+            box-shadow: 0 15px 30px rgba(255, 133, 162, 0.05);
+            transition: 0.4s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .day-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary-pink);
+            box-shadow: 0 20px 40px rgba(255, 133, 162, 0.1);
+        }
+
+        .day-card h3 {
+            color: var(--deep-pink);
+            margin: 15px 0 10px 0;
+            font-size: 1.3rem;
+        }
+
+        .day-card p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+            line-height: 1.4;
+            color: #777;
+        }
+
+        .day-emoji {
+            font-size: 3rem;
+            display: block;
+        }
+
+        .big-heart {
+            font-size: 60px;
+            margin-bottom: 20px;
+            display: block;
+            animation: heart-beat 1.2s infinite;
+        }
+
+        @keyframes heart-beat {
+            0% { transform: scale(1); }
+            15% { transform: scale(1.25); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.15); }
+            60% { transform: scale(1); }
+        }
+
+        @media (max-width: 600px) {
+            .card { padding: 40px 20px; }
+            h1 { font-size: 2rem; }
+            .btn { padding: 14px 35px; font-size: 1rem; }
+            .affection-heading { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-elements" id="bgElements"></div>
+
+    <!-- View 1: The Invitation -->
+    <div class="card" id="proposalView">
+        <span class="sticker-main">💌</span>
+        <h1>Dearest Gunna Ji!,</h1>
+        <p>I was thinking about what makes my life special, and the answer was always you. Would you make me the happiest person and be my Valentine?</p>
+        <div class="btn-container">
+            <button class="btn" id="yesBtn">Yes, Always! ❤️</button>
+            <button class="btn" id="noBtn">No</button>
+        </div>
+    </div>
+
+    <!-- View 2: The Gathering Task -->
+    <div class="card" id="taskView">
+        <span class="sticker-main">❤️</span>
+        <h1>A Small Keepsake...</h1>
+        <p>I've hidden 5 little hearts of love for you. Gather them to see what I have planned for our week.</p>
+        <div class="progress-container">
+            <div id="score" style="font-weight: 500; margin-bottom: 8px; color: var(--deep-pink);">Hearts Collected: 0/5</div>
+            <div class="progress-bar">
+                <div id="progressFill"></div>
+            </div>
+        </div>
+        <div class="game-canvas" id="gameCanvas"></div>
+    </div>
+
+    <!-- View 3: The Affectionate Result -->
+    <div id="finalView">
+        <span class="big-heart">💖</span>
+        <h1 class="affection-heading">My Heart is Yours, Gunna</h1>
+        <p class="affection-sub">"In your smile, I see my future. In your eyes, I find my home. Thank you for choosing me."</p>
+        
+        <div class="week-grid">
+            <div class="day-card">
+                <span class="day-emoji">🌹</span>
+                <h3>Rose Day</h3>
+                <p>Feb 7 • Like a rose, you bring color and a sweet fragrance to my world every single day.</p>
+            </div>
+            <div class="day-card">
+                <span class="day-emoji">💍</span>
+                <h3>Propose Day</h3>
+                <p>Feb 8 • I don't just want you for a day; I want to choose you every morning for the rest of my life.</p>
+            </div>
+            <div class="day-card">
+                <span class="day-emoji">🍫</span>
+                <h3>Chocolate Day</h3>
+                <p>Feb 9 • Even the finest chocolates aren't half as sweet as the way you look at me.</p>
+            </div>
+            <div class="day-card">
+                <span class="day-emoji">🧸</span>
+                <h3>Teddy Day</h3>
+                <p>Feb 10 • To remind you that my arms are always here for you to find warmth and safety.</p>
+            </div>
+            <div class="day-card">
+                <span class="day-emoji">🤝</span>
+                <h3>Promise Day</h3>
+                <p>Feb 11 • I promise to hold your hand through every high and every low. You'll never walk alone.</p>
+            </div>
+            <div class="day-card">
+                <span class="day-emoji">🫂</span>
+                <h3>Hug Day</h3>
+                <p>Feb 12 • A single hug from you makes all my worries disappear. You are my peaceful place.</p>
+            </div>
+            <div class="day-card">
+                <span class="day-emoji">💋</span>
+                <h3>Kiss Day</h3>
+                <p>Feb 13 • A million kisses wouldn't be enough to show you how deeply I adore you, Gunna.</p>
+            </div>
+            <div class="day-card" style="background: #fff0f3; border: 2px solid var(--deep-pink); transform: scale(1.05); z-index: 5;">
+                <span class="day-emoji">💝</span>
+                <h3>Valentine Day</h3>
+                <p>Feb 14 • Today, tomorrow, and forever, you are my everything. Let's make this day unforgettable.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. Background Decoration
+        const bgElements = document.getElementById('bgElements');
+        const emojis = ['💖', '🤍', '🌸', '✨', '☁️', '🧸', '🍭'];
+        
+        function spawnBg() {
+            const el = document.createElement('div');
+            el.className = 'floating-emoji';
+            el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animationDuration = (Math.random() * 4 + 6) + 's';
+            bgElements.appendChild(el);
+            setTimeout(() => el.remove(), 8000);
+        }
+        setInterval(spawnBg, 600);
+
+        // 2. The Smart Evasive No Button
+        const noBtn = document.getElementById('noBtn');
+        const proposalView = document.getElementById('proposalView');
+        const taskView = document.getElementById('taskView');
+        const finalView = document.getElementById('finalView');
+
+        const moveNo = (e) => {
+            const padding = 30;
+            const btnWidth = noBtn.offsetWidth;
+            const btnHeight = noBtn.offsetHeight;
+            
+            // Logic to move AWAY from the cursor/touch
+            let x = Math.random() * (window.innerWidth - btnWidth - (padding * 2)) + padding;
+            let y = Math.random() * (window.innerHeight - btnHeight - (padding * 2)) + padding;
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+            
+            const cheekyTexts = ["Nice try!", "Wait!", "Not today!", "Hehe, no", "Try again 🥺", "Wrong button!"];
+            noBtn.innerText = cheekyTexts[Math.floor(Math.random() * cheekyTexts.length)];
+        };
+
+        noBtn.addEventListener('mouseenter', moveNo);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveNo();
+        });
+
+        // 3. Navigation to Task
+        document.getElementById('yesBtn').addEventListener('click', () => {
+            proposalView.style.opacity = '0';
+            setTimeout(() => {
+                proposalView.style.display = 'none';
+                taskView.style.display = 'block';
+                setTimeout(() => {
+                    taskView.style.opacity = '1';
+                    startTask();
+                }, 50);
+            }, 500);
+        });
+
+        // 4. Heart Gathering Game
+        let score = 0;
+        const target = 5;
+        const gameCanvas = document.getElementById('gameCanvas');
+        const scoreText = document.getElementById('score');
+        const progressFill = document.getElementById('progressFill');
+
+        function startTask() {
+            spawnGameHeart();
+        }
+
+        function spawnGameHeart() {
+            if (score >= target) return;
+
+            const heart = document.createElement('div');
+            heart.className = 'catch-heart';
+            heart.innerText = '💝';
+            
+            // Position within canvas
+            const maxX = gameCanvas.offsetWidth - 50;
+            const maxY = gameCanvas.offsetHeight - 50;
+            heart.style.left = Math.random() * maxX + 'px';
+            heart.style.top = Math.random() * maxY + 'px';
+            
+            heart.onclick = () => {
+                score++;
+                scoreText.innerText = `Hearts Collected: ${score}/${target}`;
+                progressFill.style.width = (score / target) * 100 + '%';
+                
+                // Visual effect on click
+                heart.style.transition = '0.3s';
+                heart.style.transform = 'scale(3) rotate(20deg)';
+                heart.style.opacity = '0';
+                
+                setTimeout(() => {
+                    heart.remove();
+                    if (score < target) {
+                        spawnGameHeart();
+                    } else {
+                        finishTask();
+                    }
+                }, 300);
+            };
+
+            gameCanvas.appendChild(heart);
+        }
+
+        function finishTask() {
+            taskView.style.opacity = '0';
+            setTimeout(() => {
+                taskView.style.display = 'none';
+                document.body.style.alignItems = 'flex-start';
+                document.body.style.padding = '50px 0';
+                finalView.style.display = 'block';
+                setTimeout(() => {
+                    finalView.style.opacity = '1';
+                    launchConfetti();
+                }, 50);
+            }, 500);
+        }
+
+        // 5. Success Confetti
+        function launchConfetti() {
+            const colors = ['#ff85a2', '#ff4d6d', '#fff', '#ffd1dc'];
+            for(let i = 0; i < 70; i++) {
+                const conf = document.createElement('div');
+                conf.style.position = 'fixed';
+                conf.style.width = Math.random() * 10 + 5 + 'px';
+                conf.style.height = conf.style.width;
+                conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                conf.style.left = Math.random() * 100 + 'vw';
+                conf.style.top = '-20px';
+                conf.style.borderRadius = '50%';
+                conf.style.zIndex = '1000';
+                document.body.appendChild(conf);
+
+                conf.animate([
+                    { transform: 'translateY(0) rotate(0)', opacity: 1 },
+                    { transform: `translateY(110vh) translateX(${(Math.random() - 0.5) * 300}px) rotate(720deg)`, opacity: 0 }
+                ], {
+                    duration: Math.random() * 2500 + 2000,
+                    easing: 'cubic-bezier(.25,.46,.45,.94)'
+                }).onfinish = () => conf.remove();
+            }
+        }
+    </script>
+</body>
+</html>
