@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 2 Months, Gunna!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff4d6d;
+            --secondary: #ff758f;
+            --accent: #ffb3c1;
+            --dark: #590d22;
+        }
+
+        body {
+            background: #fff5f7;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .font-cursive { font-family: 'Dancing Script', cursive; }
+
+        /* Floating Hearts Animation */
+        .heart-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 10;
+            animation: floatUp 4s linear forwards;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+        }
+
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 24px;
+        }
+
+        /* Reveal Animation */
+        .hidden-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+
+        .show-section {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Envelope Styles */
+        .envelope-wrapper {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+        }
+
+        .envelope {
+            width: 300px;
+            height: 200px;
+            background: var(--primary);
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.5s;
+            box-shadow: 0 20px 40px rgba(89, 13, 34, 0.2);
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            z-index: 2;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid var(--secondary);
+            transform-origin: top;
+            transition: transform 0.5s 0.2s;
+        }
+
+        .envelope.open::before {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
+
+        .letter {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 280px;
+            height: 180px;
+            background: white;
+            z-index: 1;
+            transition: transform 0.5s;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-radius: 5px;
+        }
+
+        .envelope.open .letter {
+            transform: translate(-50%, -100px);
+        }
+
+        /* Heart Beat Animation */
+        .heart-beat {
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.1); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.1); }
+            70% { transform: scale(1); }
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, var(--primary), var(--dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Initial Surprise: The Envelope -->
+    <div id="envelope-screen" class="envelope-wrapper bg-[#fff5f7]">
+        <div class="text-center absolute top-20 px-6">
+            <h2 class="font-serif italic text-2xl text-pink-800 mb-2">Hey Gunna...</h2>
+            <p class="text-gray-600">Naveen sent you a small surprise. Open it?</p>
+        </div>
+        
+        <div class="envelope" id="mainEnvelope" onclick="openEnvelope()">
+            <div class="letter">
+                <span class="text-pink-500 font-cursive text-xl">Tap to Reveal Our Secret</span>
+                <div class="flex justify-center mt-2">
+                    <svg class="w-8 h-8 text-pink-500 heart-beat" fill="currentColor" viewBox="0 0 20 20"><path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"/></svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content (Hidden Initially) -->
+    <div id="main-content" class="hidden-section pb-20">
+        
+        <!-- Hero Section -->
+        <section class="min-h-screen flex flex-col items-center justify-center px-6 text-center">
+            <div class="mb-8">
+                <span class="inline-block px-4 py-1 bg-pink-100 text-pink-600 rounded-full text-sm font-semibold tracking-widest uppercase mb-4">Milestone Unlocked</span>
+                <h1 class="text-5xl md:text-7xl font-serif font-bold text-gray-900 mb-4">Happy <span class="gradient-text">2 Months</span> Together!</h1>
+                <p class="font-cursive text-3xl text-pink-500 italic">Dearest Gunna,</p>
+            </div>
+            
+            <div class="glass p-8 max-w-2xl mx-auto shadow-xl">
+                <p class="text-gray-700 leading-relaxed text-lg mb-6">
+                    You might have been busy or let today slip your mind, but for me, every single day since we started this journey has been etched in my heart. Today marks exactly <b>60 days</b> of us being "us".
+                </p>
+                <div class="flex justify-center space-x-4 mb-6">
+                    <div class="text-center px-4 py-2 bg-pink-50 rounded-lg">
+                        <div id="days-counter" class="text-3xl font-bold text-pink-600">00</div>
+                        <div class="text-xs uppercase text-gray-500">Days</div>
+                    </div>
+                    <div class="text-center px-4 py-2 bg-pink-50 rounded-lg">
+                        <div id="hours-counter" class="text-3xl font-bold text-pink-600">00</div>
+                        <div class="text-xs uppercase text-gray-500">Hours</div>
+                    </div>
+                    <div class="text-center px-4 py-2 bg-pink-50 rounded-lg">
+                        <div id="mins-counter" class="text-3xl font-bold text-pink-600">00</div>
+                        <div class="text-xs uppercase text-gray-500">Mins</div>
+                    </div>
+                </div>
+                <p class="text-gray-600 italic">...and counting towards forever.</p>
+            </div>
+        </section>
+
+        <!-- Cute Cards Section -->
+        <section class="px-6 max-w-5xl mx-auto grid md:grid-cols-3 gap-8 mt-12">
+            <div class="glass p-6 transform transition hover:scale-105">
+                <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                </div>
+                <h3 class="font-serif text-xl font-bold mb-2">The Spark</h3>
+                <p class="text-gray-600 text-sm">Two months ago, we decided to give 'forever' a try. It’s the most beautiful decision I’ve ever made in my entire life.</p>
+            </div>
+
+            <div class="glass p-6 transform transition hover:scale-105 border-pink-200 border-2">
+                <div class="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h3 class="font-serif text-xl font-bold mb-2">The Promise</h3>
+                <p class="text-gray-600 text-sm">Long-lasting isn't just a word; it's a promise. I promise to stay by your side through every season, making every moment count.</p>
+            </div>
+
+            <div class="glass p-6 transform transition hover:scale-105">
+                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                </div>
+                <h3 class="font-serif text-xl font-bold mb-2">The Future</h3>
+                <p class="text-gray-600 text-sm">This is just the beginning of our endless story. I'm ready to build a beautiful life with you, Gunna. From here to eternity!</p>
+            </div>
+        </section>
+
+        <!-- Final Message -->
+        <section class="mt-32 text-center px-6">
+            <div class="max-w-xl mx-auto">
+                <h2 class="font-cursive text-5xl text-pink-600 mb-6">I Love You, Gunna</h2>
+                <div class="relative inline-block">
+                    <svg class="w-24 h-24 text-pink-200 absolute -top-4 -left-4 animate-pulse" fill="currentColor" viewBox="0 0 20 20"><path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"/></svg>
+                    <p class="relative z-10 text-gray-700 font-medium italic text-xl">
+                        "In every moment we share, and every breath I take, I find reasons to love you more."
+                    </p>
+                </div>
+                <div class="mt-12 p-4 border-t border-pink-100">
+                    <p class="text-sm text-gray-400">Created with ❤️ by Naveen</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Surprise Overlay -->
+    <div id="overlay" class="fixed inset-0 bg-white z-[100] transition-opacity duration-1000 pointer-events-none opacity-0"></div>
+
+    <script>
+        // Set the start date: 2 months before today (Feb 2, 2026 -> Dec 2, 2025)
+        const startDate = new Date('December 2, 2025 00:00:00').getTime();
+
+        function updateCounter() {
+            const now = new Date().getTime();
+            const diff = now - startDate;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+            document.getElementById('days-counter').innerText = days.toString().padStart(2, '0');
+            document.getElementById('hours-counter').innerText = hours.toString().padStart(2, '0');
+            document.getElementById('mins-counter').innerText = minutes.toString().padStart(2, '0');
+        }
+
+        setInterval(updateCounter, 1000);
+        updateCounter();
+
+        function openEnvelope() {
+            const env = document.getElementById('mainEnvelope');
+            env.classList.add('open');
+            
+            // Generate some initial hearts
+            for(let i=0; i<15; i++) {
+                setTimeout(createHeart, i * 100);
+            }
+
+            // Smooth transition to main content
+            setTimeout(() => {
+                const overlay = document.getElementById('overlay');
+                overlay.style.opacity = '1';
+                
+                setTimeout(() => {
+                    document.getElementById('envelope-screen').style.display = 'none';
+                    const main = document.getElementById('main-content');
+                    main.classList.add('show-section');
+                    overlay.style.opacity = '0';
+                    
+                    // Start periodic hearts
+                    setInterval(createHeart, 800);
+                }, 1000);
+            }, 1500);
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-particle');
+            
+            // Random styling
+            const size = Math.random() * 20 + 10;
+            const left = Math.random() * 100;
+            const duration = Math.random() * 3 + 2;
+            
+            heart.style.left = left + 'vw';
+            heart.style.width = size + 'px';
+            heart.style.height = size + 'px';
+            heart.style.animationDuration = duration + 's';
+            
+            // SVG heart content
+            heart.innerHTML = `
+                <svg viewBox="0 0 20 20" fill="${['#ff4d6d', '#ff758f', '#ffb3c1'][Math.floor(Math.random()*3)]}">
+                    <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"/>
+                </svg>
+            `;
+            
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, duration * 1000);
+        }
+
+        // Add touch interaction to create hearts anywhere
+        document.addEventListener('click', (e) => {
+            if(document.getElementById('main-content').classList.contains('show-section')) {
+                const x = e.clientX;
+                const y = e.clientY;
+                
+                for(let i=0; i<5; i++) {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart-particle');
+                    heart.style.left = (x / window.innerWidth * 100) + (Math.random() * 10 - 5) + 'vw';
+                    heart.style.top = (y / window.innerHeight * 100) + 'vh';
+                    heart.style.width = '15px';
+                    heart.style.height = '15px';
+                    heart.innerHTML = `<svg viewBox="0 0 20 20" fill="#ff4d6d"><path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"/></svg>`;
+                    document.body.appendChild(heart);
+                    setTimeout(() => heart.remove(), 2000);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
