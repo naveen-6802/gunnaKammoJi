@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meowewwy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-pink: #ff85a1;
+            --soft-bg: #fff5f7;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--soft-bg);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .cursive {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.8; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        .heart {
+            position: fixed;
+            color: var(--primary-pink);
+            font-size: 1.5rem;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Message Box Shine */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(255, 133, 161, 0.2);
+        }
+
+        /* Game Styles */
+        #game-container {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: crosshair;
+            border: 3px dashed #ffb3c1;
+        }
+
+        .game-item {
+            position: absolute;
+            font-size: 2rem;
+            user-select: none;
+            transition: transform 0.1s;
+        }
+
+        .score-pop {
+            position: absolute;
+            animation: fadeUp 0.8s forwards;
+            color: #ff4d6d;
+            font-weight: bold;
+        }
+
+        @keyframes fadeUp {
+            0% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-30px); }
+        }
+
+        .no-button {
+            transition: all 0.2s ease;
+        }
+    </style>
+</head>
+<body class="text-gray-700">
+
+    <!-- Floating Background -->
+    <div id="heart-bg"></div>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex flex-col items-center justify-center p-6 text-center relative z-10">
+        <div class="animate-bounce mb-6">
+            <svg class="w-20 h-20 text-pink-500 mx-auto" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+            </svg>
+        </div>
+        <h1 class="text-5xl md:text-7xl cursive text-pink-600 mb-4">I'm Sorry, Sunshine...</h1>
+        <p class="text-lg md:text-xl max-w-2xl text-gray-600 leading-relaxed font-light">
+            I know I messed up. My brain tends to run a hundred miles an hour when I'm worried, 
+            and I ended up saying things I never truly meant.
+        </p>
+        <a href="#letter" class="mt-8 px-8 py-3 bg-pink-500 text-white rounded-full font-medium shadow-lg hover:bg-pink-600 transition-all transform hover:scale-105">
+            Read My Heart
+        </a>
+    </section>
+
+    <!-- Letter Section -->
+    <section id="letter" class="min-h-screen flex items-center justify-center p-6 relative z-10">
+        <div class="glass-card max-w-3xl w-full p-8 md:p-12 rounded-3xl">
+            <h2 class="text-3xl cursive text-pink-600 mb-6">Dear My Love,</h2>
+            <div id="typewriter" class="text-gray-700 leading-loose space-y-4 text-lg">
+                <!-- Content will be typed by JS -->
+            </div>
+            <div id="letter-end" class="mt-8 opacity-0 transition-opacity duration-1000">
+                <p class="text-pink-600 font-bold">Forever Yours,<br>Naveen</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mini Game Section -->
+    <section class="min-h-screen flex flex-col items-center justify-center p-6 bg-pink-50/50 relative z-10">
+        <div class="max-w-xl w-full text-center mb-8">
+            <h2 class="text-4xl cursive text-pink-600 mb-2">Catch My Love</h2>
+            <p class="text-gray-600">Catch the hearts & flowers. Avoid the "overthinking" clouds! <br>Collect 10 to see my final question.</p>
+        </div>
+        
+        <div class="max-w-2xl w-full relative">
+            <div id="game-container">
+                <div id="game-start-overlay" class="absolute inset-0 flex items-center justify-center bg-white/90 z-20 rounded-xl">
+                    <button onclick="startGame()" class="bg-pink-500 text-white px-8 py-4 rounded-full text-xl shadow-xl hover:bg-pink-600 transition-all">
+                        Click to Start Game 🎮
+                    </button>
+                </div>
+                <div class="absolute top-4 left-4 font-bold text-pink-500 text-xl z-10">Score: <span id="score">0</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Forgiveness Section -->
+    <section id="forgiveness" class="hidden min-h-screen flex flex-col items-center justify-center p-6 text-center z-10">
+        <div class="glass-card p-10 rounded-3xl max-w-lg w-full">
+            <h2 class="text-4xl cursive text-pink-600 mb-6">Do you forgive me?</h2>
+            <p class="mb-8 text-gray-600">I promise to try harder and keep my overthinking in check. You're the best thing that ever happened to me.</p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <button id="yesBtn" onclick="celebrate()" class="w-32 py-3 bg-green-500 text-white rounded-full font-bold shadow-lg hover:bg-green-600 transition-all transform hover:scale-110">
+                    Yes ❤️
+                </button>
+                <button id="noBtn" class="no-button w-32 py-3 bg-gray-400 text-white rounded-full font-bold shadow-md">
+                    No 🥺
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final Message Box -->
+    <div id="success-modal" class="fixed inset-0 bg-pink-600/90 hidden items-center justify-center z-50 p-6">
+        <div class="bg-white p-10 rounded-3xl text-center max-w-sm">
+            <div class="text-6xl mb-4">💖</div>
+            <h3 class="text-3xl font-bold text-pink-600 mb-2">Thank You!</h3>
+            <p class="text-gray-600 mb-6">I'm coming over with chocolate and a big hug! (Or at least sending virtual ones for now!)</p>
+            <button onclick="location.reload()" class="bg-pink-500 text-white px-6 py-2 rounded-full">Love You Always</button>
+        </div>
+    </div>
+
+    <script>
+        // 1. Floating Hearts Background
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = ['❤️', '💖', '🌸', '✨', '💗'][Math.floor(Math.random() * 5)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '105vh';
+            heart.style.animation = `float ${Math.random() * 3 + 3}s linear forwards`;
+            document.getElementById('heart-bg').appendChild(heart);
+
+            setTimeout(() => heart.remove(), 6000);
+        }
+        setInterval(createHeart, 400);
+
+        // 2. Typewriter Effect
+        const letterText = `I know you were busy, and instead of being supportive, I let my insecurities and overthinking get the best of me. 
+        I started imagining things that weren't true and said some wrong words that I deeply regret. 
+        Please know that it only happens because I care about you so much that the thought of things being "off" scares me. 
+        But that's no excuse for hurting you. 
+        You deserve peace and love, especially when you're working hard. 
+        I am truly, deeply sorry for being a handful today. I love you more than words can express.`;
+
+        let i = 0;
+        const typewriterEl = document.getElementById('typewriter');
+        
+        function typeWriter() {
+            if (i < letterText.length) {
+                typewriterEl.innerHTML += letterText.charAt(i);
+                i++;
+                setTimeout(typeWriter, 40);
+            } else {
+                document.getElementById('letter-end').classList.remove('opacity-0');
+            }
+        }
+
+        // Trigger typewriter when section is in view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    typeWriter();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        observer.observe(document.getElementById('letter'));
+
+        // 3. Mini Game Logic
+        let score = 0;
+        let gameActive = false;
+        const gameContainer = document.getElementById('game-container');
+        const scoreDisplay = document.getElementById('score');
+
+        function startGame() {
+            document.getElementById('game-start-overlay').style.display = 'none';
+            gameActive = true;
+            score = 0;
+            spawnItem();
+        }
+
+        function spawnItem() {
+            if (!gameActive) return;
+
+            const item = document.createElement('div');
+            item.className = 'game-item';
+            const isBad = Math.random() > 0.8;
+            item.innerHTML = isBad ? '☁️' : ['❤️', '🌸', '🎁', '🍭'][Math.floor(Math.random() * 4)];
+            
+            item.style.left = Math.random() * (gameContainer.offsetWidth - 50) + 'px';
+            item.style.top = '-50px';
+            gameContainer.appendChild(item);
+
+            let pos = -50;
+            const speed = 2 + Math.random() * 3;
+            
+            const fall = setInterval(() => {
+                if (!gameActive) {
+                    clearInterval(fall);
+                    item.remove();
+                    return;
+                }
+                pos += speed;
+                item.style.top = pos + 'px';
+
+                if (pos > gameContainer.offsetHeight) {
+                    clearInterval(fall);
+                    item.remove();
+                }
+            }, 20);
+
+            item.onclick = () => {
+                if (isBad) {
+                    score = Math.max(0, score - 2);
+                    showPop(item.offsetLeft, item.offsetTop, '-2', '#666');
+                } else {
+                    score++;
+                    showPop(item.offsetLeft, item.offsetTop, '+1', '#ff4d6d');
+                }
+                scoreDisplay.innerText = score;
+                clearInterval(fall);
+                item.remove();
+
+                if (score >= 10) {
+                    winGame();
+                }
+            };
+
+            setTimeout(spawnItem, 800 - (score * 20));
+        }
+
+        function showPop(x, y, text, color) {
+            const pop = document.createElement('div');
+            pop.className = 'score-pop';
+            pop.style.left = x + 'px';
+            pop.style.top = y + 'px';
+            pop.style.color = color;
+            pop.innerText = text;
+            gameContainer.appendChild(pop);
+            setTimeout(() => pop.remove(), 800);
+        }
+
+        function winGame() {
+            gameActive = false;
+            gameContainer.innerHTML = `<div class="absolute inset-0 flex flex-col items-center justify-center bg-white/90 z-20">
+                <h3 class="text-3xl cursive text-pink-600 mb-4">You caught my love!</h3>
+                <a href="#forgiveness" onclick="showForgiveness()" class="bg-pink-500 text-white px-8 py-3 rounded-full shadow-lg">Last Step...</a>
+            </div>`;
+        }
+
+        function showForgiveness() {
+            document.getElementById('forgiveness').classList.remove('hidden');
+        }
+
+        // 4. "No" Button Evasion
+        const noBtn = document.getElementById('noBtn');
+        noBtn.addEventListener('mouseover', () => {
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        });
+
+        // 5. Final Celebration
+        function celebrate() {
+            document.getElementById('success-modal').style.display = 'flex';
+            // Trigger extra hearts
+            for(let j=0; j<50; j++) {
+                setTimeout(createHeart, j * 50);
+            }
+        }
+    </script>
+</body>
+</html>
+
