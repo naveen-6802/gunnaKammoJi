@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Gunna</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        :root {
+            --deep-red: #9e0116;
+            --bright-red: #d90429;
+            --soft-pink: #ffccd5;
+            --gold: #d4af37;
+            --bg-dark: #120101;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at center, #2a0202 0%, var(--bg-dark) 100%);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Playfair Display', serif;
+            color: #fff;
+        }
+
+        #petal-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .container {
+            position: relative;
+            z-index: 5;
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+        }
+
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(3.5rem, 12vw, 5.5rem);
+            color: var(--gold);
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        /* Rose Container */
+        .rose-wrapper {
+            width: 200px;
+            height: 250px;
+            margin: 0 auto;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .rose-svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .petal {
+            fill: var(--bright-red);
+            stroke: var(--deep-red);
+            stroke-width: 0.5;
+            transform-origin: center bottom;
+            opacity: 0;
+        }
+
+        .stem {
+            fill: none;
+            stroke: #2d5a27;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+        }
+
+        .leaf {
+            fill: #2d5a27;
+            transform-origin: center;
+        }
+
+        /* Interaction UI */
+        .ui-layer {
+            margin-top: 30px;
+        }
+
+        .btn-for-you {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 14px 40px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
+        }
+
+        .btn-for-you:hover {
+            background: var(--gold);
+            color: var(--bg-dark);
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+        }
+
+        .heart-beat {
+            display: inline-block;
+            color: var(--bright-red);
+            font-size: 24px;
+            margin: 15px 0;
+            animation: beat 1.2s infinite;
+        }
+
+        @keyframes beat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); filter: drop-shadow(0 0 8px var(--bright-red)); }
+        }
+
+        .message-box {
+            margin-top: 30px;
+            opacity: 0;
+            display: none;
+        }
+
+        .message-text {
+            font-size: 1.6rem;
+            line-height: 1.5;
+            color: var(--soft-pink);
+            font-style: italic;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Glowing effect */
+        .glow {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(217, 4, 41, 0.3) 0%, transparent 70%);
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            border-radius: 50%;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="petal-canvas"></canvas>
+
+    <div class="container">
+        <h1 id="main-name">Gunna</h1>
+        
+        <div class="rose-wrapper">
+            <div class="glow"></div>
+            <svg class="rose-svg" viewBox="0 0 100 120">
+                <!-- Stem -->
+                <path class="stem" d="M50,115 Q50,90 50,60" />
+                <path class="leaf" d="M50,95 Q30,90 25,75 Q40,75 50,95" />
+                <path class="leaf" d="M50,85 Q70,80 75,65 Q60,65 50,85" />
+                
+                <!-- Petals (Layered for bloom) -->
+                <!-- Bottom outer petals -->
+                <path class="petal p-outer" d="M50,60 C15,50 15,10 50,10 C85,10 85,50 50,60" />
+                <path class="petal p-outer" d="M50,60 C20,55 25,20 50,20 C75,20 80,55 50,60" />
+                <!-- Middle petals -->
+                <path class="petal p-mid" d="M50,60 C30,58 32,30 50,30 C68,30 70,58 50,60" style="fill: #bf031e;" />
+                <path class="petal p-mid" d="M50,60 C38,58 40,40 50,40 C60,40 62,58 50,60" style="fill: #8a0113;" />
+                <!-- Center bud -->
+                <circle class="petal p-center" cx="50" cy="52" r="8" style="fill: #5e0000;" />
+            </svg>
+        </div>
+
+        <div class="ui-layer">
+            <div class="heart-beat">❤</div>
+            <br>
+            <button class="btn-for-you" id="actionBtn" onclick="handleBloom()">For You, Click here</button>
+            
+            <div class="message-box" id="message">
+                <p class="message-text">Happy Rose Day, Gunna!<br>You make my life bloom with happiness.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialization
+        const canvas = document.getElementById('petal-canvas');
+        const ctx = canvas.getContext('2d');
+        let petals = [];
+        let animationActive = false;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Intro Animation
+        window.onload = () => {
+            gsap.to("#main-name", { 
+                opacity: 1, 
+                y: 0, 
+                duration: 2, 
+                ease: "power3.out" 
+            });
+
+            // Initial subtle bloom state
+            gsap.set(".petal", { scale: 0.1, opacity: 0 });
+            gsap.to(".p-outer", { 
+                scale: 0.8, 
+                opacity: 0.8, 
+                duration: 1.5, 
+                stagger: 0.2, 
+                ease: "back.out(1.2)" 
+            });
+        };
+
+        // Petal Particle Logic
+        class Petal {
+            constructor() {
+                this.init();
+            }
+            init() {
+                this.x = Math.random() * canvas.width;
+                this.y = -20;
+                this.w = Math.random() * 15 + 10;
+                this.h = this.w * 0.8;
+                this.opacity = Math.random() * 0.5 + 0.5;
+                this.velocity = Math.random() * 2 + 1;
+                this.swing = Math.random() * 2;
+                this.swingStep = 0;
+                this.rotate = Math.random() * 360;
+                this.rotateSpeed = (Math.random() - 0.5) * 2;
+                this.color = Math.random() > 0.4 ? '#d90429' : '#ffccd5';
+            }
+            update() {
+                this.y += this.velocity;
+                this.swingStep += 0.02;
+                this.x += Math.sin(this.swingStep) * this.swing;
+                this.rotate += this.rotateSpeed;
+
+                if (this.y > canvas.height) {
+                    this.init();
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotate * Math.PI / 180);
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                
+                // Draw petal shape
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.bezierCurveTo(-this.w, -this.h, -this.w, this.h, 0, this.h);
+                ctx.bezierCurveTo(this.w, this.h, this.w, -this.h, 0, 0);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            petals.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        function handleBloom() {
+            // 1. Fully bloom the rose
+            gsap.to(".petal", { 
+                scale: 1, 
+                opacity: 1, 
+                duration: 1.5, 
+                stagger: 0.1, 
+                ease: "back.out(1.7)" 
+            });
+
+            // 2. Hide button and show message
+            gsap.to("#actionBtn", { 
+                opacity: 0, 
+                y: 20, 
+                duration: 0.5, 
+                onComplete: () => {
+                    document.getElementById('actionBtn').style.display = 'none';
+                    const msg = document.getElementById('message');
+                    msg.style.display = 'block';
+                    gsap.to(msg, { opacity: 1, y: -10, duration: 1 });
+                }
+            });
+
+            // 3. Start petal shower
+            if (!animationActive) {
+                for (let i = 0; i < 40; i++) {
+                    setTimeout(() => {
+                        petals.push(new Petal());
+                    }, i * 100);
+                }
+                animate();
+                animationActive = true;
+            }
+        }
+    </script>
+</body>
+</html>
