@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Gunna | Valentine's Day</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Dancing+Script:wght@400..700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --primary: #d41d44;
+            --soft-pink: #fff5f6;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--soft-pink);
+            overflow-x: hidden;
+            margin: 0;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+
+        .serif { font-family: 'Playfair Display', serif; }
+        .script { font-family: 'Dancing Script', cursive; }
+
+        #canvas-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(212, 29, 68, 0.1);
+        }
+
+        .heart-beat {
+            animation: beat 1.2s infinite;
+        }
+
+        @keyframes beat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        /* Envelope Styles */
+        .envelope-wrapper {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            perspective: 1000px;
+        }
+        .envelope-wrapper:hover { transform: translateY(-5px); }
+
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: #f8d7da;
+            margin: 0 auto;
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .envelope:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            z-index: 2;
+            border-top: 110px solid #f1aeb5;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            transform-origin: top;
+            transition: all 0.4s ease;
+        }
+
+        .open .envelope:before {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
+
+        .letter {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 280px;
+            height: 180px;
+            background: white;
+            z-index: 1;
+            transition: all 0.4s ease;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .open .letter {
+            transform: translateY(-120px);
+            height: 260px;
+            z-index: 3;
+        }
+
+        /* Polaroid Effect */
+        .polaroid {
+            background: white;
+            padding: 15px 15px 60px 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transform: rotate(-2deg);
+            transition: transform 0.3s ease;
+        }
+        .polaroid:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        .hidden-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .ily-glow {
+            text-shadow: 0 0 15px rgba(212, 29, 68, 0.4);
+            animation: pulse-text 2s infinite;
+        }
+
+        @keyframes pulse-text {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center min-h-screen">
+    <canvas id="canvas-bg"></canvas>
+
+    <main class="w-full max-w-2xl px-6 py-12 md:py-24 z-10 flex flex-col items-center">
+        
+        <!-- Hero Section -->
+        <section id="hero" class="text-center mb-20">
+            <div class="mb-6 inline-block">
+                <svg class="heart-beat w-16 h-16 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+            </div>
+            <h1 class="serif text-5xl md:text-7xl font-light mb-4 tracking-tight">
+                To <span class="text-red-600 font-semibold italic">Gunna</span>
+            </h1>
+            <p class="text-gray-500 uppercase tracking-[0.3em] text-sm mb-12">Something special for you</p>
+            
+            <button onclick="revealLetter()" class="glass border-red-200 text-red-600 px-10 py-4 rounded-full hover:bg-red-50 transition-all duration-300 serif italic text-xl">
+                Open my message
+            </button>
+        </section>
+
+        <!-- Letter Section -->
+        <section id="letter-section" class="hidden-section w-full mb-32">
+            <div class="envelope-wrapper" id="envelope-wrapper" onclick="toggleEnvelope()">
+                <div class="envelope" id="envelope">
+                    <div class="letter serif">
+                        <p class="text-red-500 script text-3xl mb-2">My Dearest Gunna,</p>
+                        <p class="text-sm text-gray-700 leading-relaxed italic mb-4">
+                            You make my world infinitely brighter. Every moment we share is a treasure I hold close to my heart.
+                        </p>
+                        <p class="text-red-600 script text-2xl font-bold mb-1">I love you more than words can say.</p>
+                        <p class="script text-xl text-gray-400">Forever Yours</p>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center text-gray-400 mt-12 italic animate-pulse">Click the envelope to look inside...</p>
+        </section>
+
+        <!-- Question Section -->
+        <section id="question-section" class="hidden-section glass p-8 md:p-12 rounded-3xl text-center w-full max-w-lg mb-20">
+            <h2 class="serif text-3xl md:text-4xl mb-8">Gunna, will you be my Valentine?</h2>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+                <button id="btn-yes" onclick="celebrate()" class="w-full md:w-32 bg-red-600 text-white px-8 py-3 rounded-xl hover:bg-red-700 transition-all font-medium shadow-lg shadow-red-200">
+                    Yes!
+                </button>
+                <button id="btn-no" class="w-full md:w-32 bg-white border border-gray-200 text-gray-500 px-8 py-3 rounded-xl hover:bg-gray-50 transition-all">
+                    No
+                </button>
+            </div>
+        </section>
+
+        <!-- Final Message -->
+        <section id="final-section" class="hidden-section text-center">
+            <h2 class="script text-7xl text-red-600 mb-4 ily-glow">I Love You, Gunna!</h2>
+            <p class="serif text-2xl text-gray-600 mb-10 italic">You've made me the happiest person today.</p>
+            
+            <div class="polaroid mx-auto max-w-xs mb-10" id="img-container">
+                <img id="val-img" 
+                     src="https://images.unsplash.com/photo-1518199266791-739949401541?auto=format&fit=crop&q=80&w=600" 
+                     alt="Valentine Rose" 
+                     class="w-full h-64 object-cover"
+                     onerror="handleImageError(this)">
+                <p class="script text-2xl mt-4 text-gray-700">Ours Forever ❤️</p>
+            </div>
+            
+            <p class="text-gray-400 uppercase tracking-widest text-xs">Happy Valentine's Day 2026</p>
+        </section>
+
+    </main>
+
+    <div id="toast" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-full text-sm opacity-0 transition-opacity pointer-events-none z-50">
+        Nice try! But you're stuck with me! 😉
+    </div>
+
+    <script>
+        // Handle Broken Image
+        function handleImageError(img) {
+            console.log("Image failed to load, using SVG fallback.");
+            const container = img.parentElement;
+            img.style.display = 'none';
+            const svgFallback = `
+                <div class="w-full h-64 bg-pink-50 flex items-center justify-center">
+                    <svg class="w-32 h-32 text-red-400 animate-pulse" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+            `;
+            container.insertAdjacentHTML('afterbegin', svgFallback);
+        }
+
+        // Floating Hearts Background
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        let hearts = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Heart {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + 100;
+                this.size = Math.random() * 15 + 10;
+                this.speed = Math.random() * 1 + 0.5;
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.angle = Math.random() * Math.PI * 2;
+                this.swing = Math.random() * 2 + 1;
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(Math.sin(this.angle) * 0.2);
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = '#ffb3c1';
+                ctx.beginPath();
+                const d = this.size;
+                ctx.moveTo(0, 0);
+                ctx.bezierCurveTo(-d / 2, -d / 2, -d, d / 3, 0, d);
+                ctx.bezierCurveTo(d, d / 3, d / 2, -d / 2, 0, 0);
+                ctx.fill();
+                ctx.restore();
+            }
+            update() {
+                this.y -= this.speed;
+                this.angle += 0.02;
+                this.x += Math.sin(this.angle) * this.swing;
+                if (this.y < -50) this.reset();
+            }
+        }
+
+        for (let i = 0; i < 20; i++) hearts.push(new Heart());
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            hearts.forEach(h => { h.update(); h.draw(); });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Navigation/Flow
+        function revealLetter() {
+            const section = document.getElementById('letter-section');
+            section.classList.add('visible');
+            setTimeout(() => {
+                window.scrollTo({ top: section.offsetTop - 50, behavior: 'smooth' });
+            }, 100);
+        }
+
+        function toggleEnvelope() {
+            const wrapper = document.getElementById('envelope-wrapper');
+            wrapper.classList.toggle('open');
+            
+            if (wrapper.classList.contains('open')) {
+                setTimeout(() => {
+                    const qSection = document.getElementById('question-section');
+                    qSection.classList.add('visible');
+                    window.scrollTo({ top: qSection.offsetTop - 50, behavior: 'smooth' });
+                }, 2500);
+            }
+        }
+
+        // Dodging No Button
+        const noBtn = document.getElementById('btn-no');
+        const toast = document.getElementById('toast');
+        
+        const moveButton = () => {
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 100) + 50;
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 100) + 50;
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+            noBtn.style.zIndex = '100';
+            
+            toast.style.opacity = '1';
+            setTimeout(() => toast.style.opacity = '0', 2000);
+        };
+
+        noBtn.addEventListener('mouseover', moveButton);
+        noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveButton(); });
+
+        // Celebration
+        function celebrate() {
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#d41d44', '#ffb3c1', '#ffffff']
+            });
+
+            setTimeout(() => {
+                document.getElementById('question-section').style.display = 'none';
+                const final = document.getElementById('final-section');
+                final.classList.add('visible');
+                window.scrollTo({ top: final.offsetTop - 50, behavior: 'smooth' });
+            }, 500);
+        }
+    </script>
+</body>
+</html>
+
