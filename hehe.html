@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special For Gunna</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --deep-teal: #003333;
+            --soft-glow: rgba(212, 175, 55, 0.3);
+        }
+
+        body {
+            background: radial-gradient(circle at center, #004d4d 0%, #001a1a 100%);
+            color: #f0f0f0;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .cursive { font-family: 'Dancing Script', cursive; }
+        .serif { font-family: 'Playfair Display', serif; }
+
+        /* Animated Stars Background */
+        #stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle var(--duration) infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 0.8; transform: scale(1.2); }
+        }
+
+        /* Floating Moon */
+        .moon-glow {
+            filter: drop-shadow(0 0 20px rgba(255, 255, 200, 0.6));
+            animation: float 6s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Card Styles */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--gold);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Lantern Animation */
+        .lantern {
+            animation: swing 3s infinite ease-in-out;
+            transform-origin: top center;
+        }
+
+        @keyframes swing {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #001a1a; }
+        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div id="stars-container"></div>
+
+    <!-- Main Content -->
+    <main class="relative z-10 max-w-4xl mx-auto flex flex-col items-center pt-12 pb-24">
+        
+        <!-- Hero Section -->
+        <section class="text-center mb-20 fade-in">
+            <div class="mb-6 inline-block">
+                <svg width="120" height="120" viewBox="0 0 100 100" class="moon-glow">
+                    <path d="M50 10A40 40 0 1 0 90 50A30 30 0 1 1 50 10Z" fill="#FFF9C4" />
+                    <circle cx="70" cy="30" r="2" fill="white" />
+                    <circle cx="80" cy="45" r="1.5" fill="white" />
+                </svg>
+            </div>
+            <h1 class="serif text-5xl md:text-7xl mb-4 text-[#D4AF37]">Eid Mubarak</h1>
+            <h2 class="cursive text-4xl md:text-5xl text-white mb-6">to my beautiful Gunna</h2>
+            <p class="text-lg md:text-xl font-light max-w-2xl mx-auto opacity-80 leading-relaxed">
+                Although I may not follow the traditions, I follow the light you bring into my life every single day. 
+                You are my moon, my star, and my greatest blessing.
+            </p>
+        </section>
+
+        <!-- Message Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full mb-20">
+            <!-- Compliment 1 -->
+            <div class="glass-card p-8 fade-in">
+                <div class="text-[#D4AF37] mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                </div>
+                <h3 class="serif text-2xl mb-3">Your Radiance</h3>
+                <p class="opacity-70 leading-relaxed">
+                    You have a way of lighting up a room that puts the brightest Eid decorations to shame. Your smile is the only crescent moon I need to see to know my world is okay.
+                </p>
+            </div>
+
+            <!-- Compliment 2 -->
+            <div class="glass-card p-8 fade-in">
+                <div class="text-[#D4AF37] mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+                <h3 class="serif text-2xl mb-3">Pure Heart</h3>
+                <p class="opacity-70 leading-relaxed">
+                    Beyond your incredible beauty, your kindness and the way you care for others is what truly makes you special. You are a rare soul, Gunna.
+                </p>
+            </div>
+        </section>
+
+        <!-- Prayer/Wish Section -->
+        <section class="glass-card w-full p-8 md:p-12 text-center mb-20 fade-in">
+            <h2 class="serif text-3xl md:text-4xl mb-6 text-[#D4AF37]">A Prayer For You</h2>
+            <div class="space-y-6 text-lg md:text-xl font-light italic opacity-90">
+                <p>"May your future be as bright as the colors of the most vibrant henna."</p>
+                <p>"May every obstacle in your path turn into a stepping stone for your success."</p>
+                <p>"May you always find peace, joy, and the strength to achieve every dream you hold."</p>
+            </div>
+            <div class="mt-10 flex justify-center space-x-4">
+                <div class="lantern">
+                    <svg width="40" height="60" viewBox="0 0 40 60">
+                        <rect x="10" y="5" width="20" height="40" rx="5" fill="#D4AF37" opacity="0.8"/>
+                        <circle cx="20" cy="25" r="8" fill="#FFF" opacity="0.4"/>
+                    </svg>
+                </div>
+                <div class="lantern" style="animation-delay: 0.5s">
+                    <svg width="40" height="60" viewBox="0 0 40 60">
+                        <rect x="10" y="5" width="20" height="40" rx="5" fill="#D4AF37" opacity="0.8"/>
+                        <circle cx="20" cy="25" r="8" fill="#FFF" opacity="0.4"/>
+                    </svg>
+                </div>
+                <div class="lantern" style="animation-delay: 1s">
+                    <svg width="40" height="60" viewBox="0 0 40 60">
+                        <rect x="10" y="5" width="20" height="40" rx="5" fill="#D4AF37" opacity="0.8"/>
+                        <circle cx="20" cy="25" r="8" fill="#FFF" opacity="0.4"/>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Wish Button -->
+        <section class="text-center fade-in">
+            <button onclick="revealMessage()" id="wish-btn" class="bg-[#D4AF37] hover:bg-[#b8962f] text-[#001a1a] font-bold py-4 px-10 rounded-full transition-all transform hover:scale-105 shadow-xl">
+                Open My Final Wish
+            </button>
+            <div id="secret-message" class="hidden mt-8 p-6 cursive text-3xl text-white animate-bounce">
+                I love you, Gunna. Forever and always.
+            </div>
+        </section>
+
+        <footer class="mt-24 text-sm opacity-40 text-center">
+            Designed with love for Gunna • 2026
+        </footer>
+    </main>
+
+    <script>
+        // Create Background Stars
+        function createStars() {
+            const container = document.getElementById('stars-container');
+            const starCount = 150;
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                const size = Math.random() * 3;
+                const top = Math.random() * 100;
+                const left = Math.random() * 100;
+                const duration = 2 + Math.random() * 4;
+                const delay = Math.random() * 5;
+
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.top = `${top}%`;
+                star.style.left = `${left}%`;
+                star.style.setProperty('--duration', `${duration}s`);
+                star.style.animationDelay = `${delay}s`;
+
+                container.appendChild(star);
+            }
+        }
+
+        // Reveal Secret Message
+        function revealMessage() {
+            const btn = document.getElementById('wish-btn');
+            const msg = document.getElementById('secret-message');
+            
+            btn.style.display = 'none';
+            msg.classList.remove('hidden');
+            
+            // Trigger some extra confetti effect or just smooth reveal
+            msg.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        window.onload = () => {
+            createStars();
+            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+        };
+    </script>
+</body>
+</html>
